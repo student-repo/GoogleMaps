@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,12 +19,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<CityInfo> citiesInfo;
     private PolylineOptions poption;
     private List<Polyline> polylines = new ArrayList<Polyline>();
+    private LatLng addCityLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
         String[] arraySpinner = getCitiesNames();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        s.setAdapter(adapter);
+
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(citiesInfo.get(position).getCoordinateX(),
+                            citiesInfo.get(position).getCoordinateY()), level));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private void updateCitiesToSpinner() {
+        Spinner s = (Spinner) findViewById(R.id.spinner);
+
+        String[] arraySpinner = updateCitiesNames();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         s.setAdapter(adapter);
@@ -85,9 +109,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return arraySpinner;
     }
 
+    private String[] updateCitiesNames(){
+        String[] arraySpinner = new String[citiesInfo.size()];
+
+
+        for(int i = 0; i < citiesInfo.size(); i++ ){
+            arraySpinner[i] = citiesInfo.get(i).getName();
+        }
+        return arraySpinner;
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                final LinearLayout l = (LinearLayout)findViewById(R.id.appendNewCityView);
+                final Spinner s = (Spinner) findViewById(R.id.spinner);
+                s.setVisibility(View.GONE);
+                l.setVisibility(View.VISIBLE);
+                addCityLatLng = latLng;
+            }
+        });
 
         for (CityInfo c : citiesInfo) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(c.getCoordinateX(), c.getCoordinateY())).title(c.getName()));
@@ -106,6 +151,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
+    }
+
+    public void handleAddCity(View v) {
+        final LinearLayout l = (LinearLayout)findViewById(R.id.appendNewCityView);
+        final Spinner s = (Spinner) findViewById(R.id.spinner);
+        EditText et = (EditText)findViewById(R.id.addCityEditText);
+            citiesInfo.add(0, new CityInfo(et.getText().toString(), addCityLatLng.latitude, addCityLatLng.longitude));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(addCityLatLng.latitude, addCityLatLng.longitude)).title(et.getText().toString()));
+            et.setText("");
+            updateCitiesToSpinner();
+            s.setVisibility(View.VISIBLE);
+            l.setVisibility(View.GONE);
+
+    }
+
+    public void handleExitAddCity(View v){
+        final LinearLayout l = (LinearLayout)findViewById(R.id.appendNewCityView);
+        final Spinner s = (Spinner) findViewById(R.id.spinner);
+
+        s.setVisibility(View.VISIBLE);
+        l.setVisibility(View.GONE);
     }
 
     public void removePath(View v){

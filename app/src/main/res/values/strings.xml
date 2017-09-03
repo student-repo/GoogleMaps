@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GoogleMaps</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="remove_path">Remove Path</string>
+    <string name="enter_new_city">Enter New City</string>
+    <string name="Add">Add</string>
+    <string name="exit">Exit</string>
+</resources>

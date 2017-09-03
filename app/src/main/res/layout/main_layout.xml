@@ -12,6 +12,42 @@
 
     </Spinner>
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:id="@+id/appendNewCityView"
+        android:layout_width="fill_parent"
+        android:visibility="gone">
+        <EditText
+            android:hint="@string/enter_new_city"
+            android:id="@+id/addCityEditText"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent">
+        </EditText>
+
+        <Button
+            android:text="@string/Add"
+            android:id="@+id/addCityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:onClick="handleAddCity"
+            android:textColor="#FFF">
+        </Button>
+
+        <Button
+            android:text="@string/exit"
+            android:id="@+id/exitCityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:onClick="handleExitAddCity"
+            android:textColor="#FFF">
+        </Button>
+
+
+    </LinearLayout>
+
     <!--<Button-->
         <!--android:id="@+id/button"-->
         <!--android:layout_width="match_parent"-->
@@ -30,9 +66,10 @@
         android:layout_weight="1"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         tools:context="com.example.ubuntu_master.googlemaps.MapsActivity"
         />
+
 
     <Button
         android:layout_width="match_parent"
@@ -40,6 +77,8 @@
         android:text="@string/remove_path"
         android:id="@+id/button"
         android:onClick="removePath"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFF"
         />
 
 </LinearLayout>

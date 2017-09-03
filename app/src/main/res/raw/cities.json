@@ -1,0 +1,15 @@
+{
+  "cities": [{"city": "Wroclaw", "coordinateX": 51.1, "coordinateY": 17.0},
+    {"city": "Sydney", "coordinateX": -34.0, "coordinateY": 151.0},
+    {"city": "New York", "coordinateX": 40.7, "coordinateY": -74.0},
+    {"city": "London", "coordinateX": 51.5, "coordinateY": 0.1},
+    {"city": "Moscow", "coordinateX": 55.7, "coordinateY": 37.6},
+    {"city": "Johannesburg", "coordinateX": -26.2, "coordinateY": 28.0},
+    {"city": "Madrid", "coordinateX": 40.4, "coordinateY": -3.7},
+    {"city": "Istanbul", "coordinateX": 41.0, "coordinateY": 28.9},
+    {"city": "Rio de Janeiro", "coordinateX": -22.9, "coordinateY": -43.1},
+    {"city": "Buenos Aires", "coordinateX": -34.6, "coordinateY": -58.3},
+    {"city": "Beijing", "coordinateX": 39.9, "coordinateY": 116.4},
+    {"city": "Ottawa", "coordinateX": 45.4, "coordinateY": -75.6},
+    {"city": "New Delhi", "coordinateX": 28.6, "coordinateY": 77.2}]
+}
